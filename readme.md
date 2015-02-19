@@ -5,11 +5,15 @@ A valid ACCESS_TOKEN needs to be presented with all requests.
 
 ## Animals ##
 
-> GET /animals/
+> GET /animals
 
 **Return: `animal-short[]`**
 
 List ALL animals in farm - not recommended for mobile applications due to large data size.
+
+> GET /animals/
+
+Hint for animal collection category endpoints.
 
 > GET /animals/current/
 
@@ -23,24 +27,33 @@ Lists current animals (not archived/deleted) in farm.
 
 List animals archived in {year}
 
->GET /animals/{animal_id}
+>GET /animals/{animal\_id}
 
 **Return: `animal`**
 
-List a particular animal with id {animal_id}
+List a particular animal with id {animal\_id}
 
->/animals/{animal_id}/records
+>GET /animals/{animal\_id}/latest_records
+
+**Return: `latest\_record`**
+
+List latest records for animal.
+
+>GET /animals/{animal\_id}/records
 
 **Return: `record[]`**
 
 List all records for animal.
 
->/animals/{animal_id}/{record_type}
+>GET /animals/{animal\_id}/{record\_type}
 
 Lists records for current animal.
 
+**Return: `record`**
+
 {record_type} can be
 
+- progeny
 - weights
 - observations
 - treatments
@@ -49,37 +62,31 @@ Lists records for current animal.
 - fleeces
 - movements
 
->/animals/{animal_id}/progeny
 
-**Return: `animal-short[]`**
+>GET /animals/{animal\_id}/{record\_type}/{record\_id}
 
-List progeny (children) of current animal.
+List a particular record for an animal.
+
+**Return: `record`**
 
 
 
-
-**Response Frames**
+#Response Frames
 
 **animal-short**
 
 	{
 		"id": 2474,
-       "ear_tag": "0182",
-       "nlis": {
-           "id": 150,
-           "number": "",
-           "eid": "000121722679"
-       },
-       "name": "Anikan",
-       "breed": {
-           "id": 45,
-           "name": "Corriedale"
-       },
-       "mob": null,
-       "dob": "2010-07-26",
-       "gender": "m",
-       "archive": 2014,
-       "status": null
+       	"ear_tag": "0182",
+       	"nlis": *nlis*,
+       	"name": "Anikan",
+       	"breed": *breed*,
+       	"mob": *mob*,
+       	"dob": "2010-07-26",
+       	"gender": "m",
+       	"archive": 2014,
+       	"status": "alive",
+		"is_favourite": true
 	}
 
 
@@ -95,16 +102,25 @@ List progeny (children) of current animal.
 		"dob": "2010-01-01",
 		"gender": "f",
 		"status": "alive",
-		"nlis_history": [
-			*nlis*,
-			...
-		],
 		"sire": *sire*,
 		"dam": *animal-very-short*,
 		"archive": 0,
-		"latest_records": {
-		   "weight": *weight*,
-		   "observation": *observation*,
-		   "treatment": *treatment*
-		}
+		"whp_status": false,
+		"is_favourite": false
 	}
+
+**latest_records**
+
+	"latest_records": {
+	   	"weight": *weight*,
+	   	"observation": *observation*,
+	   	"treatment": *treatment*,
+		...
+	}
+
+**nlis_history**
+
+	"nlis_history": [
+			*nlis*,
+			...
+		],
